@@ -2,26 +2,22 @@ package Arbres;
 
 import Cartes.Carta;
 
-public class AbEnll implements Ab {
+public class AbEnll<Carta> implements Ab {
     protected NodeA arrel;
     public AbEnll(){
-        arrel=null;
+        this.arrel=null;
     }
     public AbEnll(AbEnll a_esq,Carta e,AbEnll a_dtr) {
-        arrel= new NodeA(e,a_esq.arrel,a_dtr.arrel);
+        this.arrel= new NodeA(e,a_esq.arrel,a_dtr.arrel);
     }
 
-
-
-
-
 public Carta arrel() throws ArbreException{
-if(arrel==null){
+if(this.arrel==null){
     throw new ArbreException ("L arbre esta buit");}
- return  arrel.inf;
+ return  this.arrel.inf;
 }
-  public Ab fillEsquerre()throws ArbreException{
-        if(arrel !=null){
+  public Ab fillEsquerre(){
+        if(this.arrel !=null){
             Ab v = new AbEnll();
             ((AbEnll)v).arrel=arrel.esq;
             return v;
@@ -30,7 +26,7 @@ if(arrel==null){
 
 
     }
-    public Ab fillDret()throws ArbreException{
+    public Ab fillDret(){
 if(arrel != null){
     Ab v = new AbEnll();
     ((AbEnll)v).arrel=arrel.dret;
@@ -46,7 +42,7 @@ if(arrel != null){
 
     @Override
     public void buidar() {
-arrel=null;//recolector de sheet
+this.arrel=null;//recolector de sheet
     }
 
 

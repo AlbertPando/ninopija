@@ -1,6 +1,6 @@
 package Arbres;
 
-public class AcbEnll {
+public class AcbEnll implements Acb {
     // tots els mètodes especificats per la interfície Acb
 // Mètodes necessaris per fer l’arbre recorrible
     public void iniRecorregut (boolean sentit){
@@ -31,6 +31,44 @@ fet ús del mètode inserir, esborrar, buidar*/
     }
 
 
+    @Override
+    public Object arrel() throws ArbreException {
+        return null;
+    }
 
+    @Override
+    public Ab fillEsquerre()  {
+        return null;
+    }
+
+    @Override
+    public Ab fillDret(){
+        return null;
+    }
+
+    @Override
+    public boolean abBuit() {
+        return false;
+    }
+
+    @Override
+    public void buidar() {
+
+    }
+
+    @Override
+    public void inserir(Comparable comparable) throws ArbreException {
+
+    }
+
+    @Override
+    public void esborrar(Comparable comparable) throws ArbreException {
+
+    }
+
+    @Override
+    public boolean membre(Comparable comparable) {
+        return false;
+    }
 }
 
