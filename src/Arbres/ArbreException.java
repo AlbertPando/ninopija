@@ -1,7 +1,7 @@
 package Arbres;
 
-public class ArbreException extends Throwable {
+public class ArbreException extends Exception {
     public ArbreException(String str) {
-
+        super(str);
     }
 }
