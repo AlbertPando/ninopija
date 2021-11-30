@@ -1,8 +1,6 @@
 package Arbres;
 
-import Cartes.Carta;
-
-public class AbEnll<Carta> implements Ab {
+public class AbEnll<E> implements Ab<E> {
     protected NodeA arrel;
 
     public AbEnll() {
@@ -13,29 +11,29 @@ public class AbEnll<Carta> implements Ab {
         this.arrel = arrel;
     }
 
-    public AbEnll(AbEnll a_esq, Carta e, AbEnll a_dtr) {
+    public AbEnll(AbEnll a_esq, Object e, AbEnll a_dtr) {
         this.arrel = new NodeA(e, a_esq.arrel, a_dtr.arrel);
     }
 
-    public Carta arrel() throws ArbreException {
+    public E arrel() throws ArbreException {
         if (this.arrel == null) {
-            throw new ArbreException("L arbre esta buit");
+            throw new ArbreException("L'arbre està buit");
         }
-        return this.arrel.inf;
+        return (E) this.arrel.inf;
     }
 
-    public Ab<Carta> fillEsquerre() {
-        if(this.arrel.esq == null)
+    public Ab<E> fillEsquerre() {
+        if(this.arrel.left == null)
             return null;
 
-        return new AbEnll<Carta>(this.arrel.esq);
+        return new AbEnll(this.arrel.left);
     }
 
-    public Ab<Carta> fillDret() {
-        if(this.arrel.dret == null)
+    public Ab<E> fillDret() {
+        if(this.arrel.right == null)
             return null;
 
-        return new AbEnll<Carta>(this.arrel.dret);
+        return new AbEnll(this.arrel.right);
     }
 
     @Override
@@ -49,22 +47,22 @@ public class AbEnll<Carta> implements Ab {
     }
 
 
-    protected class NodeA {
-        NodeA esq, dret;
-        Carta inf;
+    protected class NodeA{
+        NodeA left, right;
+        Object inf;
 
         NodeA() {
             this(null);
         }
 
-        NodeA(Carta o) {
+        NodeA(Object o) {
             this(o, null, null);
         }
 
-        NodeA(Carta o, NodeA e, NodeA d) {
-            inf = o;
-            esq = e;
-            dret = d;
+        NodeA(Object o, NodeA e, NodeA d) {
+            this.inf = o;
+            this.left = e;
+            this.right = d;
         }
     }
 }

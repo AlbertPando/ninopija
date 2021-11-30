@@ -1,6 +1,6 @@
 package Arbres;
 
-public interface Acb<E extends Comparable<E>> extends Ab {
+public interface Acb<E extends Comparable<E>> extends Ab<E> {
     public void inserir(E e) throws ArbreException;
     // llença una excepció si l’element que s’insereix està repetit
 

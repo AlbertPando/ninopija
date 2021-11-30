@@ -1,6 +1,6 @@
 package Cartes;
 
-public class Carta {
+public class Carta implements Comparable{
     private int intNumeracio;
     private int intPal;
 
@@ -65,5 +65,10 @@ public class Carta {
         strCarta += " de " + this.toStringPal();
 
         return strCarta;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

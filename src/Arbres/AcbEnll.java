@@ -3,10 +3,11 @@ package Arbres;
 import java.util.ArrayList;
 import java.util.Queue;
 
-public class AcbEnll <Carta extends Comparable<Carta>> extends AbEnll implements Acb  {
-    private Queue<NodeA> cua;
+public class AcbEnll<E extends Comparable<E>> extends AbEnll<E> implements Acb<E> {
+    private Queue<E> cua;
+
     @Override
-    public Object arrel() throws ArbreException {
+    public E arrel() throws ArbreException {
         return super.arrel();
     }
 
@@ -27,34 +28,118 @@ public class AcbEnll <Carta extends Comparable<Carta>> extends AbEnll implements
 
     @Override
     public void buidar() {
-     super.buidar();
+        super.buidar();
     }
 
     @Override
-    public void inserir(Comparable comparable) throws ArbreException {
+    public void inserir(Comparable c) throws ArbreException {
+        this.arrel = inserirRecorrer(this.arrel, c);
+    }
 
+    private NodeA inserirRecorrer(NodeA n, Comparable c) throws ArbreException {
+        if (n == null)
+            n = new NodeA(c);
+        else {
+            int compare = c.compareTo(n.inf);
+            if (compare == 0)
+                throw new ArbreException("Està repetit " + c);
+
+            if (compare < 0)
+                n.left = inserirRecorrer(n.left, c);
+            else
+                n.right = inserirRecorrer(n.right, c);
+        }
+
+        return n;
     }
 
     @Override
-    public void esborrar(Comparable comparable) throws ArbreException {
+    public void esborrar(Comparable c) throws ArbreException {
+        this.arrel = esborrarRecorrer(this.arrel, c);
+    }
 
+    private NodeA esborrarMinim(NodeA n) {
+        NodeA aux = n;
+        if (aux.left == null)
+            return aux.right;
+
+        while (aux.left.left != null)
+            aux = aux.left;
+
+        aux.left = aux.left.right;
+
+        return n;
+    }
+
+    private E buscarMinim(NodeA n) {
+        while (n.left != null)
+            n = n.left;
+
+        return (E) n.inf;
+    }
+
+    private NodeA esborrarRecorrer(NodeA n, Comparable c) throws ArbreException {
+        if (n == null)
+            throw new ArbreException("No existeix " + c);
+
+        int compare = c.compareTo(n.inf);
+
+        if (compare < 0) // Es va a l'esquerra per eliminar
+            n.left = esborrarRecorrer(n.left, c);
+        else {
+            if (compare > 0) // Si no, cap a la dreta
+                n.right = esborrarRecorrer(n.right, c);
+            else { // Es el que volem eliminar
+                if (n.left == null && n.right == null) // Es fulla
+                    n = null;
+                else {
+                    if (n.left != null && n.right != null) {
+                        n.inf = buscarMinim(n);
+                        n.right = esborrarMinim(n.right);
+                    } else {
+                        if (n.left == null)
+                            n = n.right;
+                        else
+                            n = n.left;
+                    }
+                }
+            }
+        }
+
+        return n;
     }
 
     @Override
-    public boolean membre(Comparable comparable) {
-        return false;
+    public boolean membre(Comparable c) {
+        return membreRecorrer(super.arrel, c);
     }
 
-    public void iniRecorregut (boolean sentit){
-        this.cua = (Queue<NodeA>) new ArrayList<NodeA>();
+    private boolean membreRecorrer(NodeA n, Comparable c) {
+        if (n == null)
+            return false;
+
+        int compare = c.compareTo(n.inf);
+
+        if (compare == 0)
+            return true;
+
+        if (compare < 0)
+            return membreRecorrer(n.left, c);
+        else
+            return membreRecorrer(n.right, c);
+    }
+
+    public void iniRecorregut(boolean sentit) {
+        this.cua = (Queue<E>) new ArrayList<E>();
     }
     /* prepara l’arbre per a ser recorregut en inordre. Després d’invocar
     aquest mètode, la invocació del mètode segRecorregut retornarà el
     primer element en inordre de l’arbre. Aquest mètode ha de emplenar la
     cua amb els elements de l’arbre aplicant un recorregut en inordre. Cal
     tenir present el paràmetre alhora d’emplenar la cua */
-    public boolean finalRecorregut (){
 
+    public boolean finalRecorregut() {
+        return false;
     }
     /* retorna true si ja s’ha arribat al final del recorregut en inordre
     de l’arbre. Això és si:
@@ -63,8 +148,12 @@ public class AcbEnll <Carta extends Comparable<Carta>> extends AbEnll implements
     ja va retornar el darrer element en inordre de l’arbre.
     Tot això és el mateix que dir que retorna true quan no té sentit
     invocar el mètode segRecorregut */
-    public E segRecorregut () throws ArbreException{
 
+    public NodeA segRecorregut() throws ArbreException {
+        if (this.cua == null)
+            throw new ArbreException("No s'ha invocat el mètode iniRecorregut");
+
+        return (NodeA) super.arrel;
     }
     /*retorna el següent element en inordre, si n’hi ha.
     Llença una excepció si:
@@ -74,8 +163,5 @@ public class AcbEnll <Carta extends Comparable<Carta>> extends AbEnll implements
     ‐ s’invoca quan entre la invocació de iniRecorregut i la del
     mètode s’ha produït una modificació de l’arbre, això és, s’ha
     fet ús del mètode inserir, esborrar, buidar*/
-
-
-
 }
 
