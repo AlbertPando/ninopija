@@ -25,11 +25,17 @@ public class AbEnll<Carta> implements Ab {
     }
 
     public Ab<Carta> fillEsquerre() {
+        if(this.arrel.esq == null)
+            return null;
+
         return new AbEnll<Carta>(this.arrel.esq);
     }
 
     public Ab<Carta> fillDret() {
-        return new AbEnll<Carta>(this.arrel.esq);
+        if(this.arrel.dret == null)
+            return null;
+
+        return new AbEnll<Carta>(this.arrel.dret);
     }
 
     @Override
