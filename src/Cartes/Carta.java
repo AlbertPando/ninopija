@@ -69,6 +69,19 @@ public class Carta implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        return 0;
+        Carta other = (Carta) o;
+
+        if (this.intPal < other.intPal)
+            return -1;
+        else if (this.intPal > other.intPal)
+            return 1;
+        else{
+            if (this.intNumeracio < other.intNumeracio)
+                return -1;
+            else if (this.intNumeracio > other.intNumeracio)
+                return 1;
+            else
+                return 0;
+        }
     }
 }
