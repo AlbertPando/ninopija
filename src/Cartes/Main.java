@@ -27,7 +27,7 @@ public class Main {
             System.out.println(arbreSec.segRecorregut());
 
         int pal,num;
-        for (int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             num = rnd.nextInt(12) + 1;
             pal = rnd.nextInt(4) + 1;
 
